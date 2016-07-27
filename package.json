@@ -1,6 +1,6 @@
 {
   "name": "PeepJS",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "PeepJS is a small and easy to use module for turning urls into images (full size, and thumbnail), useful for projects akin to Google Chrome's bookmark preview page.",
   "main": "peepjs.js",
   "scripts": {
