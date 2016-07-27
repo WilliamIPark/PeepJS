@@ -82,7 +82,7 @@ Returns a promise with error handling at `.catch()` and when successful an objec
 
 ### Notes (Important!)
 
-- This is an early version, and therefore not the most flexible, however, it is very easy to jump into `peepjs.js` to edit.
+**- Make sure your output directory already exists! This is important! Same goes for if you use `fullsizePrefix` or `thumbnailPrefix` to make usage of subdirectories - the subdirectories must already exist!**
 - Screenshots are saved using the url as part of the filename, prefixed with either `full_` or `thumb_`.
 - Screenshots from the same domain will currently overwrite. This means `full_google.com.png` would get overwrote by a  `http://google.com/images` screenshot request.
 
