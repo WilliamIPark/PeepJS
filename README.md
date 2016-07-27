@@ -2,7 +2,7 @@
 -----------------
 PeepJS is a simple node module to turn a URL into a screenshot, and allows the generation of thumbnails. It is currently an early version but it does work - more flexibility will come. It uses ES6 Promises to create an asynchronous request.
 
-I created this as I required this functionality in another project, and had planned to use an API at first. However, I decided to create this myself to avoid paying a monthly API fee. It was also good practice in uncharted areas of javascript for me.
+I created this as I required this functionality in another project, and I thought it would be a good learning opportunity to create the functionality myself to get a feel for how modules are made. It also beats paying monthly for an API to do the work! 
 
 ## Prerequisites
 C++11 compatible compiler such as gcc 4.8+, clang 3.0+ or MSVC 2013+
