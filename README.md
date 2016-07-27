@@ -33,8 +33,35 @@ peeper.takeScreenshot("http://google.com", "./output/", ".gif")
 ```
 
 ## Class: Peep
-### `new Peep()`
+### `new Peep([options])`
 Creates a new Peep instance.
+
+`show` Boolean - Whether or not the electron window used to take the screenshot appears visually. Default is `false`.
+
+`width` Integer - Full screenshot's width in pixels. Default is `800`.
+
+`height` Integer - Full screenshot's height in pixels. Default is `600`.
+
+`useContentSize` Boolean - Boolean - The width and height would be used as web page's size, which means the actual window's size will include window frame's size and be slightly larger. Default is `false`.
+
+`enableLargerThanScreen` Boolean - Enable the window to be resized larger than screen. Default is `false`.
+
+`zoomFactor` Number - The default zoom factor of the page, 2.0 is `200%`. Default is `0.75%` Worth adjusting if can't fit content in screenshot.
+
+`showImages` Boolean - Whether images should show in the screenshots. Default is `true`.
+
+`showScrollbars` Boolean - Whether there should be scrollbars in the screenshot. Default is `false`.
+
+`centered` Boolean - Horizontally center the screenshot if the page does not fit. Default is `false`.
+
+`fullsizeOnly` Boolean - Only output a fullsize image. Default is `false`. **Do not use with `thumbnailOnly`**.
+
+`thumbnailOnly` Boolean - Only output a thumbnail image. Default is `false`. Still temporarily creates a fullsize image, but will be removed.
+
+`fullsizePrefix` String - Change the prefix at the start of the output filename. Example: `newprefix_google.com.png`. Default is `full_`. Can be used to put output in a further subdirectory. Example: `fullsize/full_`.
+
+`thumbnailPrefix` String - Change the prefix at the start of the output filename. Example: `newprefix_google.com.png`. Default is `thumb_`. Can be used to put output in a further subdirectory. Example: `thumbnails/thumb_`.
+`
 
 ### `Peep.takeScreenshot(url, output_dir, filetype)`
 
