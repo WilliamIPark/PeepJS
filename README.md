@@ -33,8 +33,8 @@ peeper.takeScreenshot("http://google.com", "./output/", ".gif")
 ```
 
 ## Class: Peep
-### `new Peep([options])`
-Creates a new Peep instance.
+### `new Peep({options})`
+Creates a new Peep instance. *All options are currently optional.*
 
 `show` Boolean - Whether or not the electron window used to take the screenshot appears visually. Default is `false`.
 
@@ -46,7 +46,7 @@ Creates a new Peep instance.
 
 `enableLargerThanScreen` Boolean - Enable the window to be resized larger than screen. Default is `false`.
 
-`zoomFactor` Number - The default zoom factor of the page, 2.0 is `200%`. Default is `0.75%` Worth adjusting if can't fit content in screenshot.
+`zoomFactor` Number - The default zoom factor of the page, 2.0 is `200%`. Default is `0.75` Worth adjusting if can't fit content in screenshot.
 
 `showImages` Boolean - Whether images should show in the screenshots. Default is `true`.
 
@@ -58,10 +58,15 @@ Creates a new Peep instance.
 
 `thumbnailOnly` Boolean - Only output a thumbnail image. Default is `false`. Still temporarily creates a fullsize image, but will be removed.
 
-`fullsizePrefix` String - Change the prefix at the start of the output filename. Example: `newprefix_google.com.png`. Default is `full_`. Can be used to put output in a further subdirectory. Example: `fullsize/full_`.
+`fullsizePrefix` String - Change the prefix at the start of the output filename. Example: `newprefix_google.com.png`. Default is `full_`. Can be used to put output in a further subdirectory. Example: `fullsize/full_`. **Recommended:** Check notes section below.
 
-`thumbnailPrefix` String - Change the prefix at the start of the output filename. Example: `newprefix_google.com.png`. Default is `thumb_`. Can be used to put output in a further subdirectory. Example: `thumbnails/thumb_`.
-`
+`thumbnailPrefix` String - Change the prefix at the start of the output filename. Example: `newprefix_google.com.png`. Default is `thumb_`. Can be used to put output in a further subdirectory. Example: `thumbnails/thumb_`. **Recommended:** Check notes section below.
+
+`thumbSize` Number - The factor at which your thumbnail will be scaled down to, `0.25` is `25%`. Default is `0.25`. 
+
+`thumbWidth` Integer - Exact width of thumbnail output in pixels. Overwrites `thumbSize` when considering width. Falls back to `thumbSize`.
+
+`thumbHeight` Integer - Exact height of thumbnail output in pixels. Overwrites `thumbSize` when considering height. Falls back to `thumbSize`. 
 
 ### `Peep.takeScreenshot(url, output_dir, filetype)`
 
