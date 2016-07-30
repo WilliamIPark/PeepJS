@@ -9,8 +9,8 @@ var fs = require('fs');
 module.exports = class {
   //Constructor Method
   constructor(options) {
-    console.log('[PEEPJS] STARTED');
 
+    //Nightmare feature settings
     this.nightmare = Nightmare({
       show: options.show || false,
       width: options.width || 800,
@@ -23,68 +23,85 @@ module.exports = class {
       }
     });
 
-    //Thumbnail settings
-    this.thumbSize = options.thumbSize || 0.25;
-    this.thumbWidth = options.thumbWidth ||
-      options.width * this.thumbSize || 800 * this.thumbSize;
-    this.thumbHeight = options.thumbHeight ||
-      options.height * this.thumbSize || 600 * this.thumbSize;
-
-    this.showScrollbars = options.showScrollbars || false;
-    this.centered = options.centered || false;
+    //Output settings
     this.thumbnailOnly = options.thumbnailOnly || false;
     this.fullsizeOnly = options.fullsizeOnly || false;
-
     this.fullsizePrefix = options.fullsizePrefix || "full_";
     this.thumbnailPrefix = options.thumbnailPrefix || "thumb_";
 
+    //Thumbnail settings
+    this.thumbSize = options.thumbSize || 0.25; //Factor of thumbnail resize.
+    this.thumbWidth = options.thumbWidth ||
+      options.width * this.thumbSize || 800 * this.thumbSize; //Specific Width
+    this.thumbHeight = options.thumbHeight ||
+      options.height * this.thumbSize || 600 * this.thumbSize; //Specific Height
+
+    //Screenshot editing settings.
+    this.showScrollbars = options.showScrollbars || false; // Show scrollbars
+    this.centered = options.centered || false; // Center the viewport
+
+    //Debug settings
+    this.loud = options.loud || false; // Console outputs
+
+
+    //Default setup
     this.url = null;
     this.directory = null;
     this.ftype = null;
 
+    //Exports
     this.screenshot = {fullsize: null, thumb: null};
+
+    //Debug
+    if(this.loud)
+      console.log('[PEEPJS] STARTED');
   }
 
   takeScreenshot(url, directory, type) {
 
     return new Promise((resolve, reject) => {
-      //Small method that splits up the URL to make it usable in a file name.
+      //Small method that splits up the URL to make it usable in a file name
       let splitUrl = function(){
         let httpRemoved = url.split("//");
         let slashRemoved = httpRemoved[1].split("/");
         return slashRemoved[0];
       }
-      //Set up variables.
+      //Set up variables
       this.url = url;
       this.directory = directory;
       this.ftype = type;
       this.fname = splitUrl();
 
       let output = `${this.directory}${this.fullsizePrefix}${this.fname}${this.ftype}`;
-      console.log(`[PEEPJS] TRYING: ${output}`);
 
-      //Use nightmare instance to attempt screenshot on url.
+      if(this.loud)
+        console.log(`[PEEPJS] TRYING: ${output}`);
+
+      //Use nightmare instance to attempt screenshot on url
       this.nightmare
         .goto(url)
-        .evaluate((clientOptions) => {
+        .evaluate((clientOptions) => { //Change up clientside options.
           //Hides scrollbars
           if(!clientOptions.showScrollbars) {
             document.documentElement.style.overflow = 'hidden';
             document.body.scroll = "no";
           }
-          //Hides scrolls to horizontal center of the page.
+          //Hides scrolls to horizontal center of the page
           if(clientOptions.centered) {
             document.body.scrollLeft = (document.body.scrollWidth - document.body.clientWidth) / 2
           }
         }, {
-          //Pass these varaibles into the evaluate client
+          //Pass these varaibles into the evaluate method
           showScrollbars: this.showScrollbars,
           centered: this.centered
         })
         .screenshot(output)
         .end()
-        .then(() => {
-          console.log(`[PEEPJS] SUCCESS: ${output}`);
+        .then(() => { //After screenshot is taken.
+          if(this.loud)
+            console.log(`[PEEPJS] SUCCESS: ${output}`);
+
+          //Save fullsize output.
           this.screenshot.fullsize = output;
 
           //Create the thumbnail
@@ -113,7 +130,10 @@ module.exports = class {
       //Set Up
       let input = `${this.directory}${this.fullsizePrefix}${this.fname}${this.ftype}`;
       let output = `${this.directory}${this.thumbnailPrefix}${this.fname}${this.ftype}`;
-      console.log(`[PEEPJS] TRYING: ${output}`);
+
+      //Debug
+      if(this.loud)
+        console.log(`[PEEPJS] TRYING: ${output}`);
 
       //Use sharp to resize file.
       sharp(input)
@@ -123,15 +143,22 @@ module.exports = class {
           console.log(err);
           reject(err);
         }
-        console.log(`[PEEPJS] SUCCESS: ${output}`);
+
+        //Debug
+        if(this.loud)
+          console.log(`[PEEPJS] SUCCESS: ${output}`);
+
+        //Save the thumbnail output.
         this.screenshot.thumb = output;
-        resolve();
 
         //If only the thumbnail is wanted, delete the fullsize.
         if(this.thumbnailOnly) {
           fs.unlink(input);
           this.screenshot.fullsize = null;
         }
+
+        //Resolve promise.
+        resolve();
       });
     });
   }
