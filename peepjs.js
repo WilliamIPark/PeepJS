@@ -23,6 +23,13 @@ module.exports = class {
       }
     });
 
+    //Thumbnail settings
+    this.thumbSize = options.thumbSize || 0.25;
+    this.thumbWidth = options.thumbWidth ||
+      options.width * this.thumbSize || 800 * this.thumbSize;
+    this.thumbHeight = options.thumbHeight ||
+      options.height * this.thumbSize || 600 * this.thumbSize;
+
     this.showScrollbars = options.showScrollbars || false;
     this.centered = options.centered || false;
     this.thumbnailOnly = options.thumbnailOnly || false;
@@ -82,7 +89,7 @@ module.exports = class {
 
           //Create the thumbnail
           if(!this.fullsizeOnly) {
-            this.createThumbnail().then(() => {
+            this.createThumbnail(this.thumbWidth, this.thumbHeight).then(() => {
               resolve(this.screenshot);
             })
             .catch((err) => {
@@ -101,7 +108,7 @@ module.exports = class {
     });
   }
 
-  createThumbnail() {
+  createThumbnail(thumbWidth, thumbHeight) {
     return new Promise((resolve, reject) => {
       //Set Up
       let input = `${this.directory}${this.fullsizePrefix}${this.fname}${this.ftype}`;
@@ -110,7 +117,7 @@ module.exports = class {
 
       //Use sharp to resize file.
       sharp(input)
-      .resize(200, 150)
+      .resize(this.thumbWidth, this.thumbHeight)
       .toFile(output, (err) => {
         if(err){
           console.log(err);
