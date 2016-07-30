@@ -38,6 +38,8 @@ Creates a new Peep instance. *All options are currently optional.*
 
 `show` Boolean - Whether or not the electron window used to take the screenshot appears visually. Default is `false`.
 
+`loud` Boolean - Debug/Dev option. Enables console logging for Peep. Defaults to `false` for no logging.
+
 `width` Integer - Full screenshot's width in pixels. Default is `800`.
 
 `height` Integer - Full screenshot's height in pixels. Default is `600`.
